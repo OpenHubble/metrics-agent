@@ -7,6 +7,7 @@ charset-normalizer==3.4.7
 click==8.4.2
 detect-installer==0.1.0
 dnspython==2.8.0
+docker==7.1.0
 email-validator==2.3.0
 fastapi==0.139.0
 fastapi-cli==0.0.28
@@ -25,6 +26,7 @@ MarkupSafe==3.0.3
 mdurl==0.1.2
 packaging==26.2
 pluggy==1.6.0
+psutil==7.2.2
 pydantic==2.13.4
 pydantic-extra-types==2.11.1
 pydantic-settings==2.14.2
