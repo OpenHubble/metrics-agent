@@ -27,10 +27,11 @@ Dependencies:
 
 import os
 
+
 def get_system_load():
     if hasattr(os, 'getloadavg'):
         load1, load5, load15 = os.getloadavg()
-                
+
         return {'1_min': load1, '5_min': load5, '15_min': load15}
     else:
         return "System load average not available on this platform."

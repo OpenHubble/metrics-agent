@@ -29,6 +29,7 @@ Dependencies:
 
 import psutil
 
+
 def get_swap_usage():
     swap = psutil.swap_memory()  # Fetch once
 

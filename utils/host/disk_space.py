@@ -31,6 +31,7 @@ Dependencies:
 
 import psutil
 
+
 def get_disk_space():
     return {
         p.device: {
@@ -39,7 +40,7 @@ def get_disk_space():
             'free': usage.free,
             'percent': usage.percent
         }
-        for p in psutil.disk_partitions() 
+        for p in psutil.disk_partitions()
         if not any(x in p.device for x in ('loop', 'overlay'))
-        and (usage := psutil.disk_usage(p.mountpoint))
+           and (usage := psutil.disk_usage(p.mountpoint))
     }

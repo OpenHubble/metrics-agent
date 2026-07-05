@@ -31,6 +31,7 @@ import psutil
 
 previous_network_io = None
 
+
 def get_network_io():
     global previous_network_io
     network_io = psutil.net_io_counters()

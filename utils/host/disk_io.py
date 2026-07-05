@@ -31,6 +31,7 @@ import psutil
 
 previous_disk_io = None
 
+
 def get_disk_io():
     global previous_disk_io
     disk_io = psutil.disk_io_counters()

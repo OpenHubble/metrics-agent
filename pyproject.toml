@@ -2,7 +2,7 @@
 name = "OpenHubble Agent"
 version = "2.18.10"
 description = "Lightweight system monitoring agent"
-authors = ["OpenHubble Team <team@openhubble.com>"]
+authors = ["OpenHubble Team <team@openhubble.com>", "Amirhossein Mohammadi <hi@amirhossein.info>"]
 
 [tool.openhubble.dependencies]
-python = ">=3.8"
+python = ">=3.11"

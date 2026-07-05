@@ -29,6 +29,7 @@ Dependencies:
 
 import psutil
 
+
 def get_cpu_usage():
     total_cores = psutil.cpu_count(logical=True)
     usage_per_core = psutil.cpu_percent(interval=0, percpu=True)  # No delay

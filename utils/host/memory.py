@@ -29,9 +29,10 @@ Dependencies:
 
 import psutil
 
+
 def get_memory_usage():
     memory = psutil.virtual_memory()  # Fetch once
-    
+
     return {
         'total': memory.total,
         'available': memory.available,
