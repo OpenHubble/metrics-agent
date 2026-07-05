@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 
-# Import necessary libraries
-
+# Import packages
 import argparse  # Argument parsing
 import subprocess  # Executing system commands like systemctl
-import requests # Import requests
 
+import requests  # Import requests
 from art import text2art  # To generate ASCII art
-from termcolor import cprint  # Colored terminal printing
 from rich.console import Console  # Enhanced terminal output
 from rich_gradient import Gradient  # Gradient effects in text output
+from termcolor import cprint  # Colored terminal printing
 
+# Import app settings
 import api.config.config as config  # Configuration of agent
 
 # Initialize the rich console for pretty output
 console = Console()
+
 
 # Function to print ASCII art
 def print_art():
@@ -26,7 +27,7 @@ def print_art():
         "#ff7f50",
         "#ffc0cb"
     ]
-    
+
     print("\n")
 
     console.print(
@@ -44,30 +45,35 @@ def print_art():
         )
     )
 
+
 # Function to start the service using systemctl
 def start():
     cprint("Starting the service...", "green")
     subprocess.run(["sudo", "systemctl", "start", "openhubble-agent.service"])
+
 
 # Function to stop the service using systemctl
 def stop():
     cprint("Stopping the service...", "red")
     subprocess.run(["sudo", "systemctl", "stop", "openhubble-agent.service"])
 
+
 # Function to restart the service using systemctl
 def restart():
     cprint("Restarting the service...", "yellow")
     subprocess.run(["sudo", "systemctl", "restart", "openhubble-agent.service"])
+
 
 # Function to check the status of the service using systemctl
 def status():
     cprint("Checking the service status...", "blue")
     subprocess.run(["sudo", "systemctl", "status", "openhubble-agent.service"])
 
+
 # Function to show logs from the service, with an option to follow the log output
 def logs(follow):
     log_file = "/var/log/openhubble-agent/openhubble-agent.log"
-    
+
     try:
         if follow:
             cprint("Showing logs and following the output...", "magenta")
@@ -78,11 +84,12 @@ def logs(follow):
     except KeyboardInterrupt:
         cprint("Log following interrupted. Exiting...", "yellow")
 
+
 # Function to update the service by running the update.sh script
 def update(get_confirmation=True):
     current_version = config.CLI_VERSION
     releases = get_github_releases()
-    
+
     # Get the latest version available
     latest_version = releases[0]["tag_name"] if releases else None
 
@@ -107,24 +114,27 @@ def update(get_confirmation=True):
     subprocess.run(["sudo", update_script])  # Run the update script
     cprint("Service updated successfully.", "green")
 
+
 # Function to uninstall the service with a user confirmation prompt
 def uninstall():
     cprint("Uninstalling the service...", "red")
-    
+
     # Confirmation prompt
     confirmation = input("Are you sure you want to uninstall the service? (yes/no): ").strip().lower()
-    
+
     if confirmation in ["yes", "y"]:
         uninstall_script = "/opt/openhubble-agent/scripts/uninstall.sh"
-        
+
         subprocess.run(["sudo", uninstall_script])  # Run the uninstall script
         cprint("Service uninstalled successfully.", "green")
     else:
         cprint("Uninstallation aborted.", "yellow")
 
+
 # Function to display the version of the service
 def version():
     cprint(f"OpenHubble Agent {config.AGENT_VERSION}", "cyan", attrs=["bold"])
+
 
 # Method of checking new versions
 def get_github_releases():
@@ -134,11 +144,12 @@ def get_github_releases():
 
     return releases
 
+
 def compare_versions(current_version, releases):
     # Find the latest release
     latest_release = releases[0]
-    latest_version = latest_release["tag_name"] # Tag of release
-    name = latest_release["name"] # Name of release
+    latest_version = latest_release["tag_name"]  # Tag of release
+    name = latest_release["name"]  # Name of release
     release_url = latest_release["html_url"]  # Link to the release page
 
     # Compare the versions
@@ -156,35 +167,40 @@ def compare_versions(current_version, releases):
     else:
         return None
 
+
 def ask_user_to_update(current_version):
-    confirmation = input(f"You are already using {current_version}. Would you want to update? (yes/no): ").strip().lower()
-    
+    confirmation = input(
+        f"You are already using {current_version}. Would you want to update? (yes/no): ").strip().lower()
+
     if confirmation in ["yes", "y"]:
         update(False)
     elif confirmation in ["no", "n"]:
         cprint("Please update using this command: openhubble-agent update", "yellow")
     else:
         cprint("Invalid input. Please type '[y]es' or '[n]o'.", "red")
-        
+
     print()
+
 
 def check_for_updates():
     current_version = config.AGENT_VERSION
     releases = get_github_releases()
     compare = compare_versions(current_version, releases)
-    
+
     if compare:
         cprint(compare, "green")
-        
+
         # Ask user if they want to update
         if current_version != releases[0]["tag_name"]:
             ask_user_to_update(current_version)
+
 
 # Custom argument parser to enhance the help output
 class CustomArgumentParser(argparse.ArgumentParser):
     def print_help(self):
         print_art()
         super().print_help()
+
 
 # Main function to handle command-line arguments and trigger the corresponding actions
 def main():
@@ -234,6 +250,7 @@ def main():
         version()
     else:
         parser.print_help()
+
 
 # Entry point to execute the script
 if __name__ == "__main__":
