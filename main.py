@@ -1,39 +1,36 @@
-# # Logging
-# import logging
-# from logging.handlers import RotatingFileHandler
+# FastAPI
+from fastapi import FastAPI
+from fastapi.middleware.gzip import GZipMiddleware
 
-# # Cluster
-# import multiprocessing # Multi processor
-# import uvicorn # Uvicorn
+# Router
+from routes import agent, metric
+# Config
+from settings import settings
 
-# # API
-# from api.main import app # API
-# import api.config.config as config # Config
+# Init FastAPI app
+app = FastAPI(
+    title="OpenHubble Agent",
+    version=settings.project_version,
+    summary="OpenHubble Agent API Documentation",
+    description="API for retrieving various system and Docker metrics. Secure access requires an API key via the X-API-KEY header.",
+    contact={
+        "name": "OpenHubble Agent Team",
+        "url": "https://openhubble.com/agent",
+        "email": "agent@openhubble.com",
+    },
+    license_info={
+        "name": "MIT",
+        "url": "https://github.com/OpenHubble/agent/blob/main/LICENSE",
+    },
+    openapi_tags=[
+        {"name": "Agent", "description": "Base routes of Agent"},
+        {"name": "Metrics", "description": "Operations related to system metrics"},
+    ]
+)
 
-# # Setup logging
-# log_file = config.LOG_API_DESTINATION
-#
-# # File handler for logging
-# handler = RotatingFileHandler(log_file, maxBytes=5 * 1024 * 1024, backupCount=5)
-# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-# handler.setFormatter(formatter)
-#
-# # Get the root logger and set its level to INFO
-# root_logger = logging.getLogger()
-# root_logger.addHandler(handler)
-# root_logger.setLevel(logging.INFO)
-#
-# # Capture logs for uvicorn error and access logs
-# uvicorn_error_logger = logging.getLogger("uvicorn.error")
-# uvicorn_error_logger.addHandler(handler)
-# uvicorn_error_logger.setLevel(logging.INFO)
-#
-# uvicorn_access_logger = logging.getLogger("uvicorn.access")
-# uvicorn_access_logger.addHandler(handler)
-# uvicorn_access_logger.setLevel(logging.INFO)
-#
-# # Log some initial information
-# logger = logging.getLogger("uvicorn")
-# logger.info("Agent application started!")
-# logger.info(f"Agent Version: {config.AGENT_VERSION}")
-# logger.info("OpenHubble By Amirhossein Mohammadi - 2025")
+# Use GZIP to compress data
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
+
+# Include Router
+app.include_router(agent.router, prefix="/api")
+app.include_router(metric.router, prefix="/api")
