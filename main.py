@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
 
 # Router
-from routes import agent, metric
+from routers import agent, metric
 # Config
 from settings import settings
 
@@ -23,7 +23,7 @@ app = FastAPI(
         "url": "https://github.com/OpenHubble/agent/blob/main/LICENSE",
     },
     openapi_tags=[
-        {"name": "Agent", "description": "Base routes of Agent"},
+        {"name": "Agent", "description": "Base routers of Agent"},
         {"name": "Metrics", "description": "Operations related to system metrics"},
     ]
 )
