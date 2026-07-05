@@ -11,7 +11,7 @@ from rich_gradient import Gradient  # Gradient effects in text output
 from termcolor import cprint  # Colored terminal printing
 
 # Import app settings
-import api.config.config as config  # Configuration of agent
+from api.settings import settings
 
 # Initialize the rich console for pretty output
 console = Console()
@@ -87,7 +87,7 @@ def logs(follow):
 
 # Function to update the service by running the update.sh script
 def update(get_confirmation=True):
-    current_version = config.CLI_VERSION
+    current_version = settings.project_version
     releases = get_github_releases()
 
     # Get the latest version available
@@ -133,7 +133,7 @@ def uninstall():
 
 # Function to display the version of the service
 def version():
-    cprint(f"OpenHubble Agent {config.AGENT_VERSION}", "cyan", attrs=["bold"])
+    cprint(f"OpenHubble Agent {settings.project_version}", "cyan", attrs=["bold"])
 
 
 # Method of checking new versions
@@ -183,7 +183,7 @@ def ask_user_to_update(current_version):
 
 
 def check_for_updates():
-    current_version = config.AGENT_VERSION
+    current_version = settings.project_version
     releases = get_github_releases()
     compare = compare_versions(current_version, releases)
 
