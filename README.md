@@ -36,7 +36,7 @@ This script will:
 After the installation, you need to configure the **agent**. Edit the configuration file located at:
 
 ```bash
-sudo nano /etc/openhubble-agent/openhubble-agent.ini
+sudo nano /etc/openhubble-agent/.env
 ```
 
 Update the configuration values according to your system and monitoring requirements. Save and close the file when done.
