@@ -49,15 +49,11 @@ python3 -m venv "$INSTALL_DIR/.venv"
 echo "Installing Python dependencies..."
 "$INSTALL_DIR/.venv/bin/python3" -m pip install --no-cache-dir -r "$INSTALL_DIR/requirements.txt"
 
-# Set up the configuration if necessary
-echo "Setting up configurations..."
-cp "$INSTALL_DIR/example/openhubble.ini.example" /etc/openhubble-agent/openhubble-agent.ini || {
-  echo "Failed to copy configuration file."
-  exit 1
-}
-
 # Make the Agent executable
 chmod +x "$INSTALL_DIR/cli/wrapper.sh"
+
+# Create symbolic link
+ln -sf "$INSTALL_DIR/cli/wrapper.sh" /usr/local/bin/openhubble-agent
 
 # Reload the Daemon
 echo "Reloading services..."

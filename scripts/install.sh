@@ -10,8 +10,10 @@ fi
 apt update -y
 apt install -y python3 python3-venv python3-pip curl tar jq
 
-# Set install directory
-INSTALL_DIR="/opt/openhubble-agent"
+# Set directories
+INSTALL_DIR="/opt/openhubble-agent" # Install directory
+CONFIG_DIR="/etc/openhubble-agent" # Config directory
+LOG_DIR="/var/log/openhubble-agent" # Log directory
 
 # Get the latest release tag from GitHub
 LATEST_VERSION=$(curl -s "https://api.github.com/repos/OpenHubble/agent/releases/latest" | jq -r '.tag_name')
@@ -26,9 +28,9 @@ TARBALL_URL="https://api.github.com/repos/OpenHubble/agent/tarball/$LATEST_VERSI
 echo "Installing OpenHubble Agent version $LATEST_VERSION..."
 
 # Create directories if not exist
-mkdir -p "$INSTALL_DIR"
-mkdir -p "/etc/openhubble-agent" # Ensure the config directory exists
-mkdir -p "/var/log/openhubble-agent" # Logs directory
+mkdir -p "$INSTALL_DIR" # Ensure the install directory exists
+mkdir -p "$CONFIG_DIR" # Ensure the config directory exists
+mkdir -p "$LOG_DIR" # Ensure the logs directory exists
 
 # Download and extract the latest version
 curl -L "$TARBALL_URL" -o /tmp/openhubble-agent.tar.gz
@@ -36,7 +38,7 @@ tar -xzf /tmp/openhubble-agent.tar.gz --strip-components=1 -C "$INSTALL_DIR"
 
 # Copy the config file to the config directory
 echo "Setting up configurations..."
-cp "$INSTALL_DIR/example/openhubble.ini.example" /etc/openhubble-agent/openhubble-agent.ini || {
+cp "$INSTALL_DIR/.env.example" "$CONFIG_DIR/.env" || {
   echo "Failed to copy configuration file."
   exit 1
 }
