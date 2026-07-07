@@ -125,7 +125,7 @@ def uninstall():
     if confirmation in ["yes", "y"]:
         uninstall_script = "/opt/openhubble-agent/scripts/uninstall.sh"
 
-        subprocess.run(["sudo", uninstall_script])  # Run the uninstall script
+        subprocess.run(["sudo", uninstall_script])  # Run the uninstallation script
         cprint("Service uninstalled successfully.", "green")
     else:
         cprint("Uninstallation aborted.", "yellow")
