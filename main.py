@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
 
 # Router
-from routers import agent, metric
+from routers import agent, collect
 # Config
 from settings import settings
 
@@ -24,7 +24,7 @@ app = FastAPI(
     },
     openapi_tags=[
         {"name": "Agent", "description": "Base routers of Agent"},
-        {"name": "Metrics", "description": "Operations related to system metrics"},
+        {"name": "Collect", "description": "Operations related to system metrics"},
     ]
 )
 
@@ -33,4 +33,4 @@ app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
 
 # Include Router
 app.include_router(agent.router, prefix="/api")
-app.include_router(metric.router, prefix="/api")
+app.include_router(collect.router, prefix="/api")
