@@ -1,2 +1,2 @@
 from routers import agent
-from routers import metric
+from routers import collect
