@@ -1,2 +1,2 @@
 # Models
-from models.metrics import Metric
+from models.metric import Metric
