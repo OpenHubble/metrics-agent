@@ -1,5 +1,16 @@
 # OpenHubble Agent
 
+> [!IMPORTANT]
+> **Repository Migration**
+>
+> This repository has moved to GitLab.
+>
+> All active development and maintenance now take place at:
+>
+> **[View the repository on GitLab](https://gitlab.com/openhubble/metrics/agent)**
+>
+> This GitHub repository is retained for historical reference. Please use the GitLab repository for the latest updates, issues, and contributions.
+
 Lightweight **monitoring agent** written in **Python** with **FastAPI**, designed to collect system metrics and expose an API for data retrieval and visualization. Includes installation, configuration, update, and uninstallation guides.
 
 ## Built-in Command-Line Tool
